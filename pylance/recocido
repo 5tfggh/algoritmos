@@ -1,0 +1,40 @@
+import math
+import random
+
+def funcion_objetivo(solucion):
+    # Define tu función objetivo a minimizar
+    # En este ejemplo, se utiliza una función cuadrática simple
+    return sum(x**2 for x in solucion)
+
+def recocido_simulado(solucion_inicial, temperatura_inicial, factor_enfriamiento, num_iteraciones):
+    solucion_actual = solucion_inicial
+    temperatura_actual = temperatura_inicial
+
+    for iteracion in range(num_iteraciones):
+        # Generar una nueva solución vecina
+        vecino = [x + random.uniform(-0.5, 0.5) for x in solucion_actual]
+
+        # Calcular la diferencia en la función objetivo entre la solución actual y la vecina
+        delta = funcion_objetivo(vecino) - funcion_objetivo(solucion_actual)
+
+        # Aceptar la solución vecina si es mejor o con cierta probabilidad si es peor
+        if delta < 0 or random.random() < math.exp(-delta / temperatura_actual):
+            solucion_actual = vecino
+
+        # Enfriar el sistema (disminuir la temperatura)
+        temperatura_actual *= factor_enfriamiento
+
+    return solucion_actual, funcion_objetivo(solucion_actual)
+
+# Parámetros del algoritmo
+solucion_inicial = [random.uniform(-10, 10) for _ in range(5)]
+temperatura_inicial = 100.0
+factor_enfriamiento = 0.95
+num_iteraciones = 1000
+
+# Ejecutar el algoritmo
+solucion_final, valor_final = recocido_simulado(solucion_inicial, temperatura_inicial, factor_enfriamiento, num_iteraciones)
+
+# Mostrar resultados
+print("Solución final:", solucion_final)
+print("Valor final de la función objetivo:", valor_final)

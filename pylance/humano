@@ -1,0 +1,30 @@
+import random
+
+class Celula:
+    def __init__(self, nombre, fuerza):
+        self.nombre = nombre
+        self.fuerza = fuerza
+
+    def atacar(self, objetivo):
+        print(f"{self.nombre} ataca a {objetivo.nombre} con una fuerza de {self.fuerza}")
+        objetivo.recibir_ataque(self.fuerza)
+
+    def recibir_ataque(self, fuerza_ataque):
+        print(f"{self.nombre} recibe un ataque con una fuerza de {fuerza_ataque}")
+        if random.random() < 0.5:
+            print(f"{self.nombre} logra defenderse parcialmente.")
+            self.fuerza -= fuerza_ataque * 0.5
+        else:
+            print(f"{self.nombre} no puede defenderse. Pierde salud.")
+            self.fuerza -= fuerza_ataque
+
+# Crear células del sistema inmunológico
+celula_1 = Celula("Célula A", 100)
+celula_2 = Celula("Célula B", 80)
+
+# Simular un ataque
+celula_1.atacar(celula_2)
+
+# Imprimir la salud restante de las células
+print(f"Salud de {celula_1.nombre}: {celula_1.fuerza}")
+print(f"Salud de {celula_2.nombre}: {celula_2.fuerza}")
